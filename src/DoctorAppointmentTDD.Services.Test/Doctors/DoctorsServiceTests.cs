@@ -3,8 +3,10 @@ using DoctorAppointmentTDD.Infrastructur.Application;
 using DoctorAppointmentTDD.Infrastructur.Test;
 using DoctorAppointmentTDD.Persistence.EF;
 using DoctorAppointmentTDD.Persistence.EF.Doctors;
+using DoctorAppointmentTDD.Service.Appointments.Exceptions;
 using DoctorAppointmentTDD.Service.Doctors;
 using DoctorAppointmentTDD.Service.Doctors.Contracts;
+using DoctorAppointmentTDD.Service.Doctors.Exceptions;
 using FluentAssertions;
 using System;
 using System.Collections.Generic;
@@ -13,7 +15,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Xunit;
 
-namespace DoctorAppointmentTDD.Services.Test.Unit.Doctors
+namespace DoctorAppointmentTDD.Services.Test.Doctors
 {
     public class DoctorServiceTests
     {
@@ -45,6 +47,18 @@ namespace DoctorAppointmentTDD.Services.Test.Unit.Doctors
         }
 
         [Fact]
+        public void Add_throw_DoctorNationalCodeAlreadyExistException_when_add_new_doctor()
+        {
+
+            var doctor = CreateDoctor("2380132933");
+            _dataContext.Manipulate(_ => _.Doctors.Add(doctor));
+            AddDoctorDto dto = GenerateAddDoctorDto();          
+            Action expected =()=> _sut.Add(dto);
+            expected.Should().Throw<DoctorAlreadyExistException>();
+
+        }
+
+        [Fact]
         public void GetAll_returns_all_doctors()
         {
             CreateDoctorsInDataBase();
@@ -55,6 +69,57 @@ namespace DoctorAppointmentTDD.Services.Test.Unit.Doctors
             expected.Should().Contain(_ => _.FirstName == "dummy1");
             expected.Should().Contain(_ => _.FirstName == "dummy2");
             expected.Should().Contain(_ => _.FirstName == "dummy3");
+        }
+
+        [Fact]
+        public void Update_update_doctor_properly()
+        {
+            var doctor = CreateDoctor("2380132933");
+            _dataContext.Manipulate(_ => _.Doctors.Add(doctor));
+            UpdateDoctorDto dto = GenerateUpdateDoctorDto("editedName");
+
+            _sut.Update(doctor.Id, dto);
+
+            var expected = _dataContext.Doctors
+                .FirstOrDefault(_ => _.Id == doctor.Id);
+
+            expected.FirstName.Should().Be(dto.FirstName);
+
+
+        }
+
+        [Fact]
+        public void Update_throw_DoctorNotFoundException_when_Doctor_with_given_id_is_not_exist()
+        {
+            var dummyDoctorId = 1000;
+            var dto = GenerateUpdateDoctorDto("EditedName");
+            Action expected = () => _sut.Update(dummyDoctorId, dto);
+            expected.Should().ThrowExactly<DoctorNotFoundException>();
+
+        }
+
+
+        private static UpdateDoctorDto GenerateUpdateDoctorDto(string firstName)
+        {
+            return new UpdateDoctorDto
+            {
+                FirstName = firstName,
+                LastName = "editeddummy",
+                NationalCode = "2380132933",
+                Field = "editeddummyfield"
+            };
+        }
+
+        private static Doctor CreateDoctor(string nationalCode)
+        {
+            return new Doctor
+            {
+                FirstName = "dummyName",
+                LastName = "dummyLastname",
+                NationalCode = nationalCode,
+                Field = "dummyfield",
+
+            };
         }
 
         private void CreateDoctorsInDataBase()
@@ -76,7 +141,7 @@ namespace DoctorAppointmentTDD.Services.Test.Unit.Doctors
             {
                 FirstName = "dummyFirst",
                 LastName = "dummyLast",
-                NationalCode = "228",
+                NationalCode = "2380132933",
                 Field = "dummyField",
             };
         }

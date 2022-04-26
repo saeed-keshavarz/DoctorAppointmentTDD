@@ -11,21 +11,21 @@ namespace DoctorAppointmentTDD.Persistence.EF.Doctors
 {
     public class EFDoctorRepository : DoctorRepository
     {
-        private readonly DbSet<Doctor> _doctors;
+        private readonly ApplicationDbContext _dbContext;
 
         public EFDoctorRepository(ApplicationDbContext dbcontext)
         {
-            _doctors = dbcontext.Set<Doctor>();
+            _dbContext =dbcontext;
         }
 
         public void Add(Doctor doctor)
         {
-            _doctors.Add(doctor);
+            _dbContext.Doctors.Add(doctor);
         }
 
         public List<GetDoctorDto> GetAll()
         {
-            return _doctors.Select(_ => new GetDoctorDto
+            return _dbContext.Doctors.Select(_ => new GetDoctorDto
             {
                 Id = _.Id,
                 LastName = _.LastName,
@@ -37,7 +37,7 @@ namespace DoctorAppointmentTDD.Persistence.EF.Doctors
 
         public GetDoctorDto GetByDto(int id)
         {
-            return _doctors
+            return _dbContext.Doctors
              .Select(_ => new GetDoctorDto
              {
                  Id = _.Id,
@@ -50,7 +50,7 @@ namespace DoctorAppointmentTDD.Persistence.EF.Doctors
 
         public Doctor GetById(int id)
         {
-            return _doctors
+            return _dbContext.Doctors
                 .Include(_ => _.Appointments)
                 .FirstOrDefault(_ => _.Id == id);
         }
@@ -58,12 +58,12 @@ namespace DoctorAppointmentTDD.Persistence.EF.Doctors
 
         public void Delete(Doctor doctor)
         {
-            _doctors.Remove(doctor);
+            _dbContext.Remove(doctor);
         }
 
         public bool IsExistNationalCode(string nationalCode)
         {
-            return _doctors.Any(_ => _.NationalCode == nationalCode);
+            return _dbContext.Doctors.Any(_ => _.NationalCode == nationalCode);
         }
     }
 }
