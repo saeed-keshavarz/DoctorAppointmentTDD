@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace DoctorAppointmentTDD.Infrastructur.Application
 {
-    public class Repository
+    public interface Repository
     {
     }
 }

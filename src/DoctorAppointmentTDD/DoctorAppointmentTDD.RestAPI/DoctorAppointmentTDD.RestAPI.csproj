@@ -1,0 +1,23 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+	  <PackageReference Include="Autofac" Version="6.3.0" />
+	  <PackageReference Include="Autofac.Extensions.DependencyInjection" Version="6.3.0" />
+	  <PackageReference Include="Swashbuckle.AspNetCore" Version="5.6.3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\DoctorAppointmentTDD.Infrastructur\DoctorAppointmentTDD.Infrastructur.csproj" />
+    <ProjectReference Include="..\DoctorAppointmentTDD.Persistence\DoctorAppointmentTDD.Persistence.EF.csproj" />
+    <ProjectReference Include="..\DoctorAppointmentTDD.Service\DoctorAppointmentTDD.Service.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Controllers\" />
+  </ItemGroup>
+
+</Project>
