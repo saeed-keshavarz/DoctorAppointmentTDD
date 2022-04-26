@@ -13,7 +13,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DoctorAppointmentTDD.Migrat
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DoctorAppointmentTDD.Infrastructur", "DoctorAppointmentTDD.Infrastructur\DoctorAppointmentTDD.Infrastructur.csproj", "{87DF86DE-757F-44B7-A4CC-07674ECA6C9A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DoctorAppointmentTDD.Persistence", "DoctorAppointmentTDD.Persistence\DoctorAppointmentTDD.Persistence.csproj", "{7678724E-4255-415E-8051-B860255C4077}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DoctorAppointmentTDD.Persistence.EF", "DoctorAppointmentTDD.Persistence\DoctorAppointmentTDD.Persistence.EF.csproj", "{7678724E-4255-415E-8051-B860255C4077}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DoctorAppointmentTDD.Service", "DoctorAppointmentTDD.Service\DoctorAppointmentTDD.Service.csproj", "{FA766B6F-A5F8-43E4-A5F6-11D1CFF76ACB}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -37,6 +39,10 @@ Global
 		{7678724E-4255-415E-8051-B860255C4077}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7678724E-4255-415E-8051-B860255C4077}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7678724E-4255-415E-8051-B860255C4077}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FA766B6F-A5F8-43E4-A5F6-11D1CFF76ACB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FA766B6F-A5F8-43E4-A5F6-11D1CFF76ACB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FA766B6F-A5F8-43E4-A5F6-11D1CFF76ACB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FA766B6F-A5F8-43E4-A5F6-11D1CFF76ACB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -46,6 +52,7 @@ Global
 		{C3FE53EE-90E8-448C-9991-CC0AF6D8D1F1} = {1F7C0B15-2D83-4265-B106-6236F35B808A}
 		{87DF86DE-757F-44B7-A4CC-07674ECA6C9A} = {1F7C0B15-2D83-4265-B106-6236F35B808A}
 		{7678724E-4255-415E-8051-B860255C4077} = {1F7C0B15-2D83-4265-B106-6236F35B808A}
+		{FA766B6F-A5F8-43E4-A5F6-11D1CFF76ACB} = {1F7C0B15-2D83-4265-B106-6236F35B808A}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {CAAFEF08-C4C9-4F04-87DC-C0F43FEA25D5}

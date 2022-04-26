@@ -1,4 +1,7 @@
 ﻿using DoctorAppointmentTDD.Entities;
+using DoctorAppointmentTDD.Service.Appointments.Contracts;
+using DoctorAppointmentTDD.Service.Doctors.Contracts;
+using DoctorAppointmentTDD.Service.Patients.Contracts;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
