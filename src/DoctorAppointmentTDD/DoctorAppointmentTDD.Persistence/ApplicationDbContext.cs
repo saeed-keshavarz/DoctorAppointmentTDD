@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using DoctorAppointmentTDD.Entities;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,5 +20,11 @@ namespace DoctorAppointmentTDD.Persistence.EF
             modelBuilder.ApplyConfigurationsFromAssembly
                 (typeof(ApplicationDbContext).Assembly);
         }
+
+        public DbSet<Doctor> Doctors { get; set; }
+
+        public DbSet<Appointment> Appointments { get; set; }
+
+        public DbSet<Patient> Patients { get; set; }
     }
 }
