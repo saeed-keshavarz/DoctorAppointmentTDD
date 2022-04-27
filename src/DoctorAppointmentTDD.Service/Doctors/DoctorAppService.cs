@@ -2,11 +2,7 @@
 using DoctorAppointmentTDD.Infrastructur.Application;
 using DoctorAppointmentTDD.Service.Doctors.Contracts;
 using DoctorAppointmentTDD.Service.Doctors.Exceptions;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DoctorAppointmentTDD.Service.Doctors
 {
@@ -35,15 +31,12 @@ namespace DoctorAppointmentTDD.Service.Doctors
 
             var isDoctorExist = _repository
                 .IsExistNationalCode(doctor.NationalCode);
-
-            if (isDoctorExist)
-            {
-                throw new DoctorAlreadyExistException();
-            }
+            PerventToAddDoctorWhenNationalCodeExists(isDoctorExist);
 
             _repository.Add(doctor);
             _unitOfWork.Commit();
         }
+
 
         public List<GetDoctorDto> GetAll()
         {
@@ -63,7 +56,7 @@ namespace DoctorAppointmentTDD.Service.Doctors
             if (doctor.NationalCode != dto.NationalCode)
             {
                 var isDoctorExist = _repository
-              .IsExistNationalCode(doctor.NationalCode);
+              .IsExistNationalCodeExceptSelf(id, dto.NationalCode);
 
                 if (isDoctorExist)
                 {
@@ -104,6 +97,13 @@ namespace DoctorAppointmentTDD.Service.Doctors
             }
         }
 
-     
+        private static void PerventToAddDoctorWhenNationalCodeExists(bool isDoctorExist)
+        {
+            if (isDoctorExist)
+            {
+                throw new DoctorAlreadyExistException();
+            }
+        }
+
     }
 }

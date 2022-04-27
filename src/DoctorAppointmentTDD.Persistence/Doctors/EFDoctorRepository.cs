@@ -65,5 +65,10 @@ namespace DoctorAppointmentTDD.Persistence.EF.Doctors
         {
             return _dbContext.Doctors.Any(_ => _.NationalCode == nationalCode);
         }
+
+        public bool IsExistNationalCodeExceptSelf(int id, string nationalCode)
+        {
+            return _dbContext.Doctors.Any(_ => _.NationalCode == nationalCode && _.Id != id);
+        }
     }
 }

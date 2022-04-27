@@ -20,6 +20,6 @@ namespace DoctorAppointmentTDD.Service.Doctors.Contracts
         GetDoctorDto GetByDto(int id);
 
         void Delete(Doctor doctor);
-
+        bool IsExistNationalCodeExceptSelf(int id, string nationalCode);
     }
 }

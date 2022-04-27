@@ -113,11 +113,15 @@ namespace DoctorAppointmentTDD.Services.Test.Doctors
         [Fact]
         public void Update_throw_DoctorNationalCodeAlreadyExistException_when_update_doctor()
         {
-            var doctor = CreateDoctor("2380132932");
-            _dataContext.Manipulate(_ => _.Doctors.Add(doctor));
+            var doctor1 = CreateDoctor("2380132932");
+            _dataContext.Manipulate(_ => _.Doctors.Add(doctor1));
+
+            var doctor2 = CreateDoctor("2380132933");
+            _dataContext.Manipulate(_ => _.Doctors.Add(doctor2));
+
             var dto = GenerateUpdateDoctorDto("EditedName");
 
-            Action expected = () => _sut.Update(doctor.Id, dto);
+            Action expected = () => _sut.Update(doctor1.Id, dto);
 
             expected.Should().ThrowExactly<DoctorAlreadyExistException>();
 
