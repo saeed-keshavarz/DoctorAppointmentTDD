@@ -4,6 +4,8 @@ using DoctorAppointmentTDD.Persistence.EF;
 using DoctorAppointmentTDD.Persistence.EF.Appointments;
 using DoctorAppointmentTDD.Service.Appointments;
 using DoctorAppointmentTDD.Service.Appointments.Contracts;
+using DoctorAppointmentTDD.Service.Doctors.Contracts;
+using DoctorAppointmentTDD.Service.Patients.Contracts;
 using DoctorAppointmentTDD.Test.Tools.Doctors;
 using DoctorAppointmentTDD.Test.Tools.Patients;
 using FluentAssertions;
@@ -55,8 +57,51 @@ namespace DoctorAppointmentTDD.Services.Test.Appointments
             _dataContext.Appointments.Should().Contain(_ => _.DoctorId == dto.DoctorId &&
             _.PatientId == dto.PatientId &&
             _.Date == dto.Date);
+        }
+        [Fact]
+        public void GetAll_returns_all_appointments_with_doctor_and_patient()
+        {
+            List<Appointment> appointments = CreateAppointmentsIndataBase();
+            _dataContext.Manipulate(_ =>
+            _.Appointments.AddRange(appointments));
 
+            var expected = _sut.GetAll();
+
+            expected.Should().HaveCount(2);
+            expected.Should().Contain(_ => _.doctor.FirstName == "doctor1");
+            expected.Should().Contain(_ => _.doctor.FirstName == "doctor2");
+            expected.Should().Contain(_ => _.doctor.LastName == "doctor1");
+            expected.Should().Contain(_ => _.doctor.LastName == "doctor2");
+            expected.Should().Contain(_ => _.doctor.Field == "feild1");
+            expected.Should().Contain(_ => _.doctor.Field == "feild2");
+            expected.Should().Contain(_ => _.doctor.NationalCode == "123");
+            expected.Should().Contain(_ => _.doctor.NationalCode == "1234");
+
+            expected.Should().Contain(_ => _.patient.FirstName == "patient1");
+            expected.Should().Contain(_ => _.patient.FirstName == "patient2");
+            expected.Should().Contain(_ => _.patient.LastName == "patient1");
+            expected.Should().Contain(_ => _.patient.LastName == "patient2");
+            expected.Should().Contain(_ => _.patient.NationalCode == "123");
+            expected.Should().Contain(_ => _.patient.NationalCode == "1234");
         }
 
+
+        private List<Appointment> CreateAppointmentsIndataBase()
+        {
+            return new List<Appointment>
+            {
+                new Appointment {
+                    Date = new DateTime(2020, 04, 27),
+                    Doctor=new Doctor{FirstName="doctor1", LastName="doctor1", Field="feild1", NationalCode="123" },
+                    Patient=new Patient{FirstName="patient1", LastName="patient1",NationalCode="123"},
+                },
+                new Appointment {
+                    Date = new DateTime(2020, 04, 27),
+                    Doctor=new Doctor{FirstName="doctor2", LastName="doctor2", Field="feild2", NationalCode="1234" },
+                    Patient=new Patient{FirstName="patient2", LastName="patient2",NationalCode="1234"},
+                },
+
+            }.ToList();
+        }
     }
 }

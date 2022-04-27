@@ -38,9 +38,9 @@ namespace DoctorAppointmentTDD.Persistence.EF.Appointments
                 },
                 patient = new GetPatientDto()
                 {
-                    FirstName = _.Doctor.FirstName,
-                    LastName = _.Doctor.LastName,
-                    NationalCode = _.Doctor.NationalCode,
+                    FirstName = _.Patient.FirstName,
+                    LastName = _.Patient.LastName,
+                    NationalCode = _.Patient.NationalCode,
 
                 },
 

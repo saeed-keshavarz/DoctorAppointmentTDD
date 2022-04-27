@@ -71,6 +71,15 @@ namespace DoctorAppointmentTDD.Services.Test.Doctors
             expected.Should().Contain(_ => _.FirstName == "dummy1");
             expected.Should().Contain(_ => _.FirstName == "dummy2");
             expected.Should().Contain(_ => _.FirstName == "dummy3");
+            expected.Should().Contain(_ => _.LastName == "dummy1");
+            expected.Should().Contain(_ => _.LastName == "dummy2");
+            expected.Should().Contain(_ => _.LastName == "dummy3");
+            expected.Should().Contain(_ => _.NationalCode == "2380132933");
+            expected.Should().Contain(_ => _.NationalCode == "2380257515");
+            expected.Should().Contain(_ => _.NationalCode == "2380132934");
+            expected.Should().Contain(_ => _.LastName == "dummy1");
+            expected.Should().Contain(_ => _.LastName == "dummy2");
+            expected.Should().Contain(_ => _.LastName == "dummy3");
         }
 
         [Fact]
@@ -81,7 +90,10 @@ namespace DoctorAppointmentTDD.Services.Test.Doctors
 
            GetDoctorDto expected = _sut.GetByDto(doctor.Id);
 
+            expected.FirstName.Should().Be("dummyName");
+            expected.LastName.Should().Be("dummyLastname");
             expected.NationalCode.Should().Be("2380132933");
+            expected.Field.Should().Be("dummyfield");
         }
 
         [Fact]

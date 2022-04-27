@@ -38,7 +38,7 @@ namespace DoctorAppointmentTDD.Test.Tools.Doctors
             {
                 new Doctor { FirstName = "dummy1", LastName="dummy1",NationalCode="2380132933", Field="dummy1"},
                 new Doctor { FirstName = "dummy2", LastName="dummy2",NationalCode="2380257515", Field="dummy2"},
-                new Doctor { FirstName = "dummy3", LastName="dummy4",NationalCode="2380132934", Field="dummy3"},
+                new Doctor { FirstName = "dummy3", LastName="dummy3",NationalCode="2380132934", Field="dummy3"},
             }.ToList();
 
         }
