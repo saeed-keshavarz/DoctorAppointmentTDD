@@ -40,7 +40,7 @@ namespace DoctorAppointmentTDD.Service.Appointments
 
             if (alreadyExists)
             {
-                throw new AlreadyExists();
+                throw new AppointmentAlreadyExist();
             }
 
             if (appointmentcountIsFull > 4)
@@ -72,7 +72,7 @@ namespace DoctorAppointmentTDD.Service.Appointments
 
             if (alreadyExists)
             {
-                throw new AlreadyExists();
+                throw new AppointmentAlreadyExist();
             }
 
             if (appointment.DoctorId != dto.DoctorId)

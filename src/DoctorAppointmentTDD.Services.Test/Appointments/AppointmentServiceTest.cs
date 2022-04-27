@@ -4,6 +4,7 @@ using DoctorAppointmentTDD.Persistence.EF;
 using DoctorAppointmentTDD.Persistence.EF.Appointments;
 using DoctorAppointmentTDD.Service.Appointments;
 using DoctorAppointmentTDD.Service.Appointments.Contracts;
+using DoctorAppointmentTDD.Service.Appointments.Exceptions;
 using DoctorAppointmentTDD.Service.Doctors.Contracts;
 using DoctorAppointmentTDD.Service.Patients.Contracts;
 using DoctorAppointmentTDD.Test.Tools.Doctors;
@@ -52,6 +53,25 @@ namespace DoctorAppointmentTDD.Services.Test.Appointments
             _dataContext.Appointments.Should().Contain(_ => _.DoctorId == dto.DoctorId &&
             _.PatientId == dto.PatientId &&
             _.Date == dto.Date);
+        }
+
+        [Fact]
+        public void Add_throw_AppointmentAlreadyExistException_when_add_new_appointment()
+        {
+            var doctor = DoctorFactory.CreateDoctor("2380132933");
+            _dataContext.Manipulate(_ => _.Add(doctor));
+
+            Patient patient = PatientFactory.CreatePatient("2380257515");
+            _dataContext.Manipulate(_ => _.Add(patient));
+
+            Appointment appointment = CreateAppointment(doctor, patient);
+            _dataContext.Manipulate(_ => _.Appointments.Add(appointment));
+
+            AddAppointmentDto dto = GenerateAddAppointmentDto(doctor, patient);
+
+            Action expected = () =>_sut.Add(dto);
+
+            expected.Should().Throw<AppointmentAlreadyExist>();
         }
 
         [Fact]
@@ -164,7 +184,7 @@ namespace DoctorAppointmentTDD.Services.Test.Appointments
             {
                 DoctorId = doctor.Id,
                 PatientId = patient.Id,
-                Date = new DateTime(2022, 04, 27)
+                Date = new DateTime(2022, 04, 28)
             };
         }
 

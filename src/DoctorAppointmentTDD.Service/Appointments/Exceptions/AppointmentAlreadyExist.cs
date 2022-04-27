@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace DoctorAppointmentTDD.Service.Appointments.Exceptions
 {
-    public class AlreadyExists : Exception
+    public class AppointmentAlreadyExist : Exception
     {
     }
 }
