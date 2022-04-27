@@ -54,14 +54,12 @@ namespace DoctorAppointmentTDD.Service.Patients
         {
             var patient = _repository.GetById(id);
 
-            if (patient.NationalCode != dto.NationalCode)
+            PreventToUpdateWhenPatientNotExist(patient);
+            var isExistNationalCode = _repository
+               .IsExistNationalCodeExceptSelf(id,dto.NationalCode);
+            if (isExistNationalCode)
             {
-                var isExistNationalCode = _repository
-               .IsExistNationalCode(patient.NationalCode);
-                if (isExistNationalCode)
-                {
-                    throw new PatientAlreadyExistException();
-                }
+                throw new PatientAlreadyExistException();
             }
 
             patient.FirstName = dto.FirstName;
@@ -71,9 +69,22 @@ namespace DoctorAppointmentTDD.Service.Patients
             _unitOfWork.Commit();
         }
 
+
+        private static void PreventToUpdateWhenPatientNotExist(Patient patient)
+        {
+            if (patient == null)
+            {
+                throw new PatientNotFoundException();
+            }
+        }
+
         public void Delete(int id)
         {
             var patient = _repository.GetById(id);
+            if (patient == null)
+            {
+                throw new PatientNotFoundException();
+            }
             _repository.Delete(patient);
             _unitOfWork.Commit();
 

@@ -17,6 +17,6 @@ namespace DoctorAppointmentTDD.Service.Doctors.Contracts
         void Update(int id, UpdateDoctorDto dto);
 
         void Delete(int id);
-        void IsExistNationalCode(string nationalCode);
+
     }
 }

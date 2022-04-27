@@ -3,7 +3,6 @@ using DoctorAppointmentTDD.Infrastructur.Application;
 using DoctorAppointmentTDD.Infrastructur.Test;
 using DoctorAppointmentTDD.Persistence.EF;
 using DoctorAppointmentTDD.Persistence.EF.Doctors;
-using DoctorAppointmentTDD.Service.Appointments.Exceptions;
 using DoctorAppointmentTDD.Service.Doctors;
 using DoctorAppointmentTDD.Service.Doctors.Contracts;
 using DoctorAppointmentTDD.Service.Doctors.Exceptions;
@@ -11,8 +10,6 @@ using FluentAssertions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Xunit;
 
 namespace DoctorAppointmentTDD.Services.Test.Doctors
@@ -52,8 +49,10 @@ namespace DoctorAppointmentTDD.Services.Test.Doctors
 
             var doctor = CreateDoctor("2380132933");
             _dataContext.Manipulate(_ => _.Doctors.Add(doctor));
-            AddDoctorDto dto = GenerateAddDoctorDto();          
-            Action expected =()=> _sut.Add(dto);
+            AddDoctorDto dto = GenerateAddDoctorDto();
+
+            Action expected = () => _sut.Add(dto);
+
             expected.Should().Throw<DoctorAlreadyExistException>();
 
         }
@@ -69,6 +68,17 @@ namespace DoctorAppointmentTDD.Services.Test.Doctors
             expected.Should().Contain(_ => _.FirstName == "dummy1");
             expected.Should().Contain(_ => _.FirstName == "dummy2");
             expected.Should().Contain(_ => _.FirstName == "dummy3");
+        }
+
+        [Fact]
+        public void Get_return_doctor_with_dto()
+        {
+            var doctor = CreateDoctor("2380132933");
+            _dataContext.Manipulate(_ => _.Doctors.Add(doctor));
+
+           GetDoctorDto expected = _sut.GetByDto(doctor.Id);
+
+            expected.NationalCode.Should().Be("2380132933");
         }
 
         [Fact]
@@ -93,11 +103,48 @@ namespace DoctorAppointmentTDD.Services.Test.Doctors
         {
             var dummyDoctorId = 1000;
             var dto = GenerateUpdateDoctorDto("EditedName");
+
             Action expected = () => _sut.Update(dummyDoctorId, dto);
+
             expected.Should().ThrowExactly<DoctorNotFoundException>();
 
         }
 
+        [Fact]
+        public void Update_throw_DoctorNationalCodeAlreadyExistException_when_update_doctor()
+        {
+            var doctor = CreateDoctor("2380132932");
+            _dataContext.Manipulate(_ => _.Doctors.Add(doctor));
+            var dto = GenerateUpdateDoctorDto("EditedName");
+
+            Action expected = () => _sut.Update(doctor.Id, dto);
+
+            expected.Should().ThrowExactly<DoctorAlreadyExistException>();
+
+        }
+
+        [Fact]
+        public void Delete_delete_doctor_properly()
+        {
+            var doctor = CreateDoctor("2380132933");
+            _dataContext.Manipulate(_ => _.Doctors.Add(doctor));
+
+            _sut.Delete(doctor.Id);
+
+            _dataContext.Doctors.Should().
+                NotContain(_ => _.Id == doctor.Id);
+
+        }
+
+        [Fact]
+        public void Delete_throw_DoctorNotFoundException_when_Doctor_with_given_id_is_not_exist()
+        {
+            var dummyDoctorId = 1000;
+
+            Action expected = () => _sut.Delete(dummyDoctorId);
+
+            expected.Should().ThrowExactly<DoctorNotFoundException>();
+        }
 
         private static UpdateDoctorDto GenerateUpdateDoctorDto(string firstName)
         {
@@ -118,7 +165,6 @@ namespace DoctorAppointmentTDD.Services.Test.Doctors
                 LastName = "dummyLastname",
                 NationalCode = nationalCode,
                 Field = "dummyfield",
-
             };
         }
 
@@ -133,7 +179,6 @@ namespace DoctorAppointmentTDD.Services.Test.Doctors
             _dataContext.Manipulate(_ =>
             _.Doctors.AddRange(doctors));
         }
-
 
         private static AddDoctorDto GenerateAddDoctorDto()
         {

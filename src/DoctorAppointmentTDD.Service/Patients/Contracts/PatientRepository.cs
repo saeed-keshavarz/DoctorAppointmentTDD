@@ -19,5 +19,6 @@ namespace DoctorAppointmentTDD.Service.Patients.Contracts
         GetPatientDto GetByDto(int id);
 
         void Delete(Patient patient);
+        bool IsExistNationalCodeExceptSelf(int id, string nationalCode);
     }
 }

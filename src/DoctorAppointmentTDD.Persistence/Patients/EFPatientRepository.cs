@@ -56,11 +56,20 @@ namespace DoctorAppointmentTDD.Persistence.EF.Patients
             _patients.Remove(patient);
         }
 
+        public bool IsExistNationalCode(int id, string nationalCode)
+        {
+            return _patients.Any(_ => _.Id == id &&_.NationalCode==nationalCode);
+        }
+
         public bool IsExistNationalCode(string nationalCode)
         {
             return _patients.Any(_ => _.NationalCode == nationalCode);
         }
 
+        public bool IsExistNationalCodeExceptSelf(int id, string nationalCode)
+        {
+            return _patients.Any(_ => _.NationalCode == nationalCode && _.Id != id);
+        }
     }
 
 }

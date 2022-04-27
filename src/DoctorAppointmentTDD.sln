@@ -19,7 +19,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DoctorAppointmentTDD.Servic
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DoctorAppointmentTDD.RestAPI", "DoctorAppointmentTDD.RestAPI\DoctorAppointmentTDD.RestAPI.csproj", "{A008F732-44C9-40CB-88BA-5B7B304C149F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DoctorAppointmentTDD.Services.Test", "DoctorAppointmentTDD.Services.Test\DoctorAppointmentTDD.Services.Test.csproj", "{C461AFCA-C9A4-4981-81D1-EDC580FA1968}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DoctorAppointmentTDD.Services.Test", "DoctorAppointmentTDD.Services.Test\DoctorAppointmentTDD.Services.Test.csproj", "{C461AFCA-C9A4-4981-81D1-EDC580FA1968}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DoctorAppointmentTDD.Test.Tools", "DoctorAppointmentTDD.Test.Tools\DoctorAppointmentTDD.Test.Tools.csproj", "{D3AFFEC5-650C-4B3C-893D-19AC2E620303}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -55,6 +57,10 @@ Global
 		{C461AFCA-C9A4-4981-81D1-EDC580FA1968}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C461AFCA-C9A4-4981-81D1-EDC580FA1968}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C461AFCA-C9A4-4981-81D1-EDC580FA1968}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D3AFFEC5-650C-4B3C-893D-19AC2E620303}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D3AFFEC5-650C-4B3C-893D-19AC2E620303}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D3AFFEC5-650C-4B3C-893D-19AC2E620303}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D3AFFEC5-650C-4B3C-893D-19AC2E620303}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -67,6 +73,7 @@ Global
 		{FA766B6F-A5F8-43E4-A5F6-11D1CFF76ACB} = {1F7C0B15-2D83-4265-B106-6236F35B808A}
 		{A008F732-44C9-40CB-88BA-5B7B304C149F} = {1F7C0B15-2D83-4265-B106-6236F35B808A}
 		{C461AFCA-C9A4-4981-81D1-EDC580FA1968} = {708A35D4-1118-41C4-A2D4-A46846D16900}
+		{D3AFFEC5-650C-4B3C-893D-19AC2E620303} = {708A35D4-1118-41C4-A2D4-A46846D16900}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {CAAFEF08-C4C9-4F04-87DC-C0F43FEA25D5}
