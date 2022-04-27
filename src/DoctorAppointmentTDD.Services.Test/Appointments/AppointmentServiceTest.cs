@@ -127,6 +127,26 @@ namespace DoctorAppointmentTDD.Services.Test.Appointments
             expected.PatientId.Should().Be(dto.PatientId);
         }
 
+        [Fact]
+        public void Delete_delete_appointment_properly()
+        {
+            var doctor = DoctorFactory.CreateDoctor("2380132933");
+            _dataContext.Manipulate(_ => _.Add(doctor));
+
+            Patient patient = PatientFactory.CreatePatient("2380257515");
+            _dataContext.Manipulate(_ => _.Add(patient));
+
+            Appointment appointment = CreateAppointment(doctor, patient);
+            _dataContext.Manipulate(_ => _.Appointments.Add(appointment));
+
+            _sut.Delete(appointment.Id);
+
+            _dataContext.Appointments.Should()
+                .NotContain(_=>_.Id==appointment.Id);
+
+        }
+
+
         private UpdateAppointmentDto GenerateUpdateAppointmentDto(Doctor doctor, Patient patient)
         {
             return new UpdateAppointmentDto
