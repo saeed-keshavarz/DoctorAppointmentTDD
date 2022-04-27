@@ -75,6 +75,26 @@ namespace DoctorAppointmentTDD.Services.Test.Appointments
         }
 
         [Fact]
+        public void Add_throw_AppointmentCountIsFullException_when_doctor_has_more_than_five_appointment_in_one_day()
+        {
+            var appointments = GenrateListOfAppointmnets();
+            _dataContext.Manipulate(_ =>
+            _.Appointments.AddRange(appointments));
+
+            AddAppointmentDto dto = new AddAppointmentDto
+            {
+                Date = new DateTime(2022, 04, 28),
+                DoctorId = 1,
+                PatientId = 100
+            };
+
+            Action expected = () => _sut.Add(dto);
+
+            expected.Should().ThrowExactly<AppointmentCountIsFull>();
+
+        }
+
+        [Fact]
         public void GetAll_returns_all_appointments_with_doctor_and_patient()
         {
             List<Appointment> appointments = CreateAppointmentsIndataBase();
@@ -84,14 +104,14 @@ namespace DoctorAppointmentTDD.Services.Test.Appointments
             var expected = _sut.GetAll();
 
             expected.Should().HaveCount(2);
-            expected.Should().Contain(_ => _.Date.Day == 27 && _.Date.Month == 04 && _.Date.Year == 2020);
+            expected.Should().Contain(_ => _.Date.Day == 28 && _.Date.Month == 04 && _.Date.Year == 2022);
             expected.Should().Contain(_ => _.doctor.FirstName == "doctor1");
-            expected.Should().Contain(_ => _.doctor.FirstName == "doctor2");
             expected.Should().Contain(_ => _.doctor.LastName == "doctor1");
-            expected.Should().Contain(_ => _.doctor.LastName == "doctor2");
-            expected.Should().Contain(_ => _.doctor.Field == "feild1");
-            expected.Should().Contain(_ => _.doctor.Field == "feild2");
+            expected.Should().Contain(_ => _.doctor.Field == "field1");
             expected.Should().Contain(_ => _.doctor.NationalCode == "123");
+            expected.Should().Contain(_ => _.doctor.FirstName == "doctor2");
+            expected.Should().Contain(_ => _.doctor.LastName == "doctor2");
+            expected.Should().Contain(_ => _.doctor.Field == "field2");
             expected.Should().Contain(_ => _.doctor.NationalCode == "1234");
 
             expected.Should().Contain(_ => _.patient.FirstName == "patient1");
@@ -203,17 +223,53 @@ namespace DoctorAppointmentTDD.Services.Test.Appointments
             return new List<Appointment>
             {
                 new Appointment {
-                    Date = new DateTime(2020, 04, 27),
-                    Doctor=new Doctor{FirstName="doctor1", LastName="doctor1", Field="feild1", NationalCode="123" },
+                    Date = new DateTime(2022, 04, 28),
+                    Doctor=new Doctor{FirstName="doctor1", LastName="doctor1", Field="field1", NationalCode="123" },
                     Patient=new Patient{FirstName="patient1", LastName="patient1",NationalCode="123"},
                 },
                 new Appointment {
-                    Date = new DateTime(2020, 04, 27),
-                    Doctor=new Doctor{FirstName="doctor2", LastName="doctor2", Field="feild2", NationalCode="1234" },
+                    Date = new DateTime(2022, 04, 28),
+                    Doctor=new Doctor{FirstName="doctor2", LastName="doctor2", Field="field2", NationalCode="1234" },
                     Patient=new Patient{FirstName="patient2", LastName="patient2",NationalCode="1234"},
-                },
-
+                },            
             }.ToList();
+        }
+
+        private static List<Appointment> GenrateListOfAppointmnets()
+        {
+            return new List<Appointment>
+            {
+                new Appointment
+                {
+                    Date = new DateTime(2022, 04, 28),
+                    DoctorId=1,
+                    PatientId=1,
+                },
+                new Appointment
+                {
+                    Date = new DateTime(2022, 04, 28),
+                    DoctorId=1,
+                    PatientId=2,
+                },
+                new Appointment
+                {
+                    Date = new DateTime(2022, 04, 28),
+                    DoctorId=1,
+                    PatientId=3,
+                },
+                new Appointment
+                {
+                    Date = new DateTime(2022, 04, 28),
+                    DoctorId=1,
+                    PatientId=4,
+                },
+                new Appointment
+                {
+                    Date = new DateTime(2022, 04, 28),
+                    DoctorId=1,
+                    PatientId=5,
+                }
+            };
         }
     }
 }
