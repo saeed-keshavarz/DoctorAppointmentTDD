@@ -54,16 +54,6 @@ namespace DoctorAppointmentTDD.Services.Test.Appointments
             _.Date == dto.Date);
         }
 
-        private static AddAppointmentDto GenerateAddAppointmentDto(Doctor doctor, Patient patient)
-        {
-            return new AddAppointmentDto()
-            {
-                DoctorId = doctor.Id,
-                PatientId = patient.Id,
-                Date = new DateTime(2022, 04, 27)
-            };
-        }
-
         [Fact]
         public void GetAll_returns_all_appointments_with_doctor_and_patient()
         {
@@ -107,7 +97,55 @@ namespace DoctorAppointmentTDD.Services.Test.Appointments
             GetAppointmentDto expected = _sut.GetAppointmentById(appointment.Id);
 
             expected.Date.Year.Should().Be(2022);
-            //expected.patient.FirstName.Should().Be("dummyName");
+            expected.doctor.FirstName.Should().Be("dummyName");
+            expected.doctor.NationalCode.Should().Be("2380132933");
+            expected.patient.FirstName.Should().Be("dummyName");
+            expected.patient.LastName.Should().Be("dummyLastname");
+            expected.patient.NationalCode.Should().Be("2380257515");
+
+        }
+
+        [Fact]
+        public void Update_update_appointment_properly()
+        {
+            var doctor = DoctorFactory.CreateDoctor("2380132933");
+            _dataContext.Manipulate(_ => _.Add(doctor));
+
+            Patient patient = PatientFactory.CreatePatient("2380257515");
+            _dataContext.Manipulate(_ => _.Add(patient));
+
+            Appointment appointment = CreateAppointment(doctor, patient);
+            _dataContext.Manipulate(_ => _.Appointments.Add(appointment));
+
+            UpdateAppointmentDto dto = GenerateUpdateAppointmentDto(doctor, patient);
+
+            _sut.Update(appointment.Id, dto);
+
+            var expected = _dataContext.Appointments
+                .FirstOrDefault(_=>_.Id == appointment.Id);
+            expected.DoctorId.Should().Be(dto.DoctorId);
+            expected.PatientId.Should().Be(dto.PatientId);
+        }
+
+        private UpdateAppointmentDto GenerateUpdateAppointmentDto(Doctor doctor, Patient patient)
+        {
+            return new UpdateAppointmentDto
+            {
+                Date = DateTime.Now,
+                DoctorId = doctor.Id,
+                PatientId = patient.Id,
+
+            };
+        }
+
+        private static AddAppointmentDto GenerateAddAppointmentDto(Doctor doctor, Patient patient)
+        {
+            return new AddAppointmentDto()
+            {
+                DoctorId = doctor.Id,
+                PatientId = patient.Id,
+                Date = new DateTime(2022, 04, 27)
+            };
         }
 
         private Appointment CreateAppointment(Doctor doctor, Patient patient)
@@ -115,8 +153,8 @@ namespace DoctorAppointmentTDD.Services.Test.Appointments
             return new Appointment
             {
                 Date = new DateTime(2022, 04, 28),
-                DoctorId =doctor.Id,
-                PatientId =patient.Id,
+                DoctorId = doctor.Id,
+                PatientId = patient.Id,
             };
         }
 
