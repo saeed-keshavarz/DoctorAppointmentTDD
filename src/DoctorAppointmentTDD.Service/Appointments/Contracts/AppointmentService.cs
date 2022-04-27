@@ -12,7 +12,7 @@ namespace DoctorAppointmentTDD.Service.Appointments.Contracts
 
         List<GetAppointmentDto> GetAll();
 
-        GetAppointmentDto GetByDto(int id);
+        GetAppointmentDto GetAppointmentById(int id);
 
         void Update(int id, UpdateAppointmentDto dto);
 

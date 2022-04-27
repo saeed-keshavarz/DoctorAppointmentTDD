@@ -45,12 +45,7 @@ namespace DoctorAppointmentTDD.Services.Test.Appointments
             Patient patient = PatientFactory.CreatePatient("2380257515");
             _dataContext.Manipulate(_ => _.Add(patient));
 
-            var dto = new AddAppointmentDto()
-            {
-                DoctorId = doctor.Id,
-                PatientId = patient.Id,
-                Date = new DateTime(2022, 04, 27)
-            };
+            AddAppointmentDto dto = GenerateAddAppointmentDto(doctor, patient);
 
             _sut.Add(dto);
 
@@ -58,6 +53,17 @@ namespace DoctorAppointmentTDD.Services.Test.Appointments
             _.PatientId == dto.PatientId &&
             _.Date == dto.Date);
         }
+
+        private static AddAppointmentDto GenerateAddAppointmentDto(Doctor doctor, Patient patient)
+        {
+            return new AddAppointmentDto()
+            {
+                DoctorId = doctor.Id,
+                PatientId = patient.Id,
+                Date = new DateTime(2022, 04, 27)
+            };
+        }
+
         [Fact]
         public void GetAll_returns_all_appointments_with_doctor_and_patient()
         {
@@ -68,6 +74,7 @@ namespace DoctorAppointmentTDD.Services.Test.Appointments
             var expected = _sut.GetAll();
 
             expected.Should().HaveCount(2);
+            expected.Should().Contain(_ => _.Date.Day == 27 && _.Date.Month == 04 && _.Date.Year == 2020);
             expected.Should().Contain(_ => _.doctor.FirstName == "doctor1");
             expected.Should().Contain(_ => _.doctor.FirstName == "doctor2");
             expected.Should().Contain(_ => _.doctor.LastName == "doctor1");
@@ -85,6 +92,33 @@ namespace DoctorAppointmentTDD.Services.Test.Appointments
             expected.Should().Contain(_ => _.patient.NationalCode == "1234");
         }
 
+        [Fact]
+        public void Get_return_one_appointment_with_doctor_and_pateint()
+        {
+            var doctor = DoctorFactory.CreateDoctor("2380132933");
+            _dataContext.Manipulate(_ => _.Add(doctor));
+
+            Patient patient = PatientFactory.CreatePatient("2380257515");
+            _dataContext.Manipulate(_ => _.Add(patient));
+
+            Appointment appointment = CreateAppointment(doctor, patient);
+            _dataContext.Manipulate(_ => _.Appointments.Add(appointment));
+
+            GetAppointmentDto expected = _sut.GetAppointmentById(appointment.Id);
+
+            expected.Date.Year.Should().Be(2022);
+            //expected.patient.FirstName.Should().Be("dummyName");
+        }
+
+        private Appointment CreateAppointment(Doctor doctor, Patient patient)
+        {
+            return new Appointment
+            {
+                Date = new DateTime(2022, 04, 28),
+                DoctorId =doctor.Id,
+                PatientId =patient.Id,
+            };
+        }
 
         private List<Appointment> CreateAppointmentsIndataBase()
         {

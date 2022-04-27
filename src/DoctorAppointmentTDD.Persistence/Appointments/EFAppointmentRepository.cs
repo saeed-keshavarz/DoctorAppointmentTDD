@@ -13,20 +13,20 @@ namespace DoctorAppointmentTDD.Persistence.EF.Appointments
 {
     public class EFAppointmentRepository : AppointmentRepository
     {
-        private readonly DbSet<Appointment> _appointments;
+        private readonly ApplicationDbContext _datacontext;
 
         public EFAppointmentRepository(ApplicationDbContext dbContext)
         {
-            _appointments = dbContext.Set<Appointment>();
+            _datacontext=dbContext;
         }
         public void Add(Appointment appointment)
         {
-            _appointments.Add(appointment);
+            _datacontext.Appointments.Add(appointment);
         }
 
         public List<GetAppointmentDto> GetAll()
         {
-            return _appointments.Select(_ => new GetAppointmentDto
+            return _datacontext.Appointments.Select(_ => new GetAppointmentDto
             {
                 Date = _.Date,
                 doctor = new GetDoctorDto()
@@ -47,10 +47,11 @@ namespace DoctorAppointmentTDD.Persistence.EF.Appointments
             }).ToList();
         }
 
-        public GetAppointmentDto GetAppointmentDto(int id)
+        public GetAppointmentDto GetAppointmentById(int id)
         {
-            return _appointments.Select(_ => new GetAppointmentDto
+            return _datacontext.Appointments.Select(_ => new GetAppointmentDto
             {
+                Id = id,
                 Date = _.Date,
                 doctor = new GetDoctorDto()
                 {
@@ -72,22 +73,22 @@ namespace DoctorAppointmentTDD.Persistence.EF.Appointments
 
         public Appointment GetById(int id)
         {
-            return _appointments.FirstOrDefault(_ => _.Id == id);
+            return _datacontext.Appointments.FirstOrDefault(_ => _.Id == id);
         }
 
         public void Delete(Appointment appointment)
         {
-            _appointments.Remove(appointment);
+            _datacontext.Appointments.Remove(appointment);
         }
 
         public bool Isvisited(int doctorId, int patientId, DateTime date)
         {
-            return _appointments.Any(_ => _.PatientId == patientId && _.DoctorId == doctorId && _.Date == date);
+            return _datacontext.Appointments.Any(_ => _.PatientId == patientId && _.DoctorId == doctorId && _.Date == date);
         }
 
         public int Appointmentcount(int doctorId, DateTime date)
         {
-            return _appointments.Where(_ => _.DoctorId == doctorId && _.Date == date).Count();
+            return _datacontext.Appointments.Where(_ => _.DoctorId == doctorId && _.Date == date).Count();
         }
     }
 }

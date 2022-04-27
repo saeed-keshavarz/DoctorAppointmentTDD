@@ -19,7 +19,7 @@ namespace DoctorAppointmentTDD.Service.Appointments.Contracts
 
         Appointment GetById(int id);
 
-        GetAppointmentDto GetAppointmentDto(int id);
+        GetAppointmentDto GetAppointmentById(int id);
 
         void Delete(Appointment appointment);
     }

@@ -58,9 +58,9 @@ namespace DoctorAppointmentTDD.Service.Appointments
             return _repository.GetAll();
         }
 
-        public GetAppointmentDto GetByDto(int id)
+        public GetAppointmentDto GetAppointmentById(int id)
         {
-            return _repository.GetAppointmentDto(id);
+            return _repository.GetAppointmentById(id);
         }
 
         public void Update(int id, UpdateAppointmentDto dto)
@@ -99,5 +99,7 @@ namespace DoctorAppointmentTDD.Service.Appointments
             _repository.Delete(appointment);
             _unitOfWork.Commit();
         }
+
+
     }
 }
