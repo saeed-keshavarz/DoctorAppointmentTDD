@@ -32,15 +32,15 @@ namespace DoctorAppointmentTDD.Test.Tools.Doctors
             };
         }
 
-        public static void CreateDoctorsInDataBase()
+        public static List<Doctor> CreateDoctorsInDataBase()
         {
-            var doctors = new List<Doctor>
+            return new List<Doctor>
             {
                 new Doctor { FirstName = "dummy1", LastName="dummy1",NationalCode="2380132933", Field="dummy1"},
                 new Doctor { FirstName = "dummy2", LastName="dummy2",NationalCode="2380257515", Field="dummy2"},
                 new Doctor { FirstName = "dummy3", LastName="dummy4",NationalCode="2380132934", Field="dummy3"},
-            };
-          
+            }.ToList();
+
         }
 
         public static AddDoctorDto GenerateAddDoctorDto()
