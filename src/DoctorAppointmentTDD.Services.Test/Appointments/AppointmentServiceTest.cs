@@ -104,7 +104,7 @@ namespace DoctorAppointmentTDD.Services.Test.Appointments
             var expected = _sut.GetAll();
 
             expected.Should().HaveCount(2);
-            expected.Should().Contain(_ => _.Date.Day == 28 && _.Date.Month == 04 && _.Date.Year == 2022);
+            expected.Should().Contain(_ => _.Date.Date==appointments[0].Date.Date);
             expected.Should().Contain(_ => _.doctor.FirstName == "doctor1");
             expected.Should().Contain(_ => _.doctor.LastName == "doctor1");
             expected.Should().Contain(_ => _.doctor.Field == "field1");
