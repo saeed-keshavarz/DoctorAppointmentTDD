@@ -77,16 +77,16 @@ namespace DoctorAppointmentTDD.Services.Test.Appointments
         [Fact]
         public void Add_throw_AppointmentCountIsFullException_when_doctor_has_more_than_five_appointment_in_one_day()
         {
-            var appointments = GenrateListOfAppointmnets();
+            var doctor = new Doctor { FirstName = "doctor1", LastName = "doctor1", Field = "field1", NationalCode = "123" };
+
+            var appointments = GenrateListOfAppointmnets(doctor);
             _dataContext.Manipulate(_ =>
             _.Appointments.AddRange(appointments));
 
-            AddAppointmentDto dto = new AddAppointmentDto
-            {
-                Date = new DateTime(2022, 04, 28),
-                DoctorId = 1,
-                PatientId = 100
-            };
+            Patient patient = PatientFactory.CreatePatient("2380257515");
+            _dataContext.Manipulate(_ => _.Add(patient));
+
+            AddAppointmentDto dto = GenerateAddAppointmentDto(doctor, patient);
 
             Action expected = () => _sut.Add(dto);
 
@@ -235,41 +235,38 @@ namespace DoctorAppointmentTDD.Services.Test.Appointments
             }.ToList();
         }
 
-        private static List<Appointment> GenrateListOfAppointmnets()
+        private static List<Appointment> GenrateListOfAppointmnets(Doctor doctor)
         {
-            return new List<Appointment>
+
+            var appointments= new List<Appointment>
             {
-                new Appointment
-                {
+                new Appointment {
                     Date = new DateTime(2022, 04, 28),
-                    DoctorId=1,
-                    PatientId=1,
+                    Doctor=doctor,
+                    Patient=new Patient{FirstName="patient1", LastName="patient1",NationalCode="123"},
                 },
-                new Appointment
-                {
+               new Appointment {
                     Date = new DateTime(2022, 04, 28),
-                    DoctorId=1,
-                    PatientId=2,
+                    Doctor=doctor,
+                    Patient=new Patient{FirstName="patient2", LastName="patient2",NationalCode="1234"},
                 },
-                new Appointment
-                {
+               new Appointment {
                     Date = new DateTime(2022, 04, 28),
-                    DoctorId=1,
-                    PatientId=3,
+                    Doctor=doctor,
+                    Patient=new Patient{FirstName="patient3", LastName="patient3",NationalCode="12345"},
                 },
-                new Appointment
-                {
+              new Appointment {
                     Date = new DateTime(2022, 04, 28),
-                    DoctorId=1,
-                    PatientId=4,
+                    Doctor=doctor,
+                    Patient=new Patient{FirstName="patient4", LastName="patient4",NationalCode="123456"},
                 },
-                new Appointment
-                {
+               new Appointment {
                     Date = new DateTime(2022, 04, 28),
-                    DoctorId=1,
-                    PatientId=5,
-                }
-            };
+                    Doctor=doctor,
+                    Patient=new Patient{FirstName="patient5", LastName="patient5",NationalCode="1234567"},
+                },
+            }.ToList();
+            return appointments;
         }
     }
 }
